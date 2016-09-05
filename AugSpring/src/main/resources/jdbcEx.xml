@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+		 
+		<!-- properties파일 읽어오기 -->
+		<context:property-placeholder location="classpath:db.properties"/>
+		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+		destroy-method="close"><!-- 객체가 없어질때 클로즈됨/ 초기화,종료를 xml을 사용하고 싶지 않다면 어노테이션으로 지정해준다 -->
+		<property name="driverClass" value="${driver}"></property>
+		<property name="jdbcUrl" value="${url}"></property>
+		<property name="user" value="jun"></property>
+		<property name="password" value="1234"></property>
+		</bean>
+		
+	<!-- 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource"/>
+		
+		<bean id="userDAOImpl" class="spring.jdbc.UserDAOImpl" p:jdbcTemplate-ref="jdbcTemplate" /> -->
+		
+		<bean id="userDAOImpl2" class="spring.jdbc.UserDAOImpl" p:dataSource-ref="dataSource" /><!-- jdbcDaoSupport를 쓸 경우 dataSource만 주입하면된다.  -->
+</beans>
